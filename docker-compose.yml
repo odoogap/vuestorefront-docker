@@ -39,7 +39,7 @@ services:
     environment:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
-      - POSTGRES_DB=odoo
+      - POSTGRES_DB=v14_odoo
 
   odoo_init:
     env_file: .env
@@ -51,7 +51,7 @@ services:
     command: >
       bash -c "if [ ! -d "/mnt/extra-addons/graphql_vuestorefront" ]; then git clone https://github.com/odoogap/vuestorefront.git .
       && git submodule update --init --recursive
-      && /entrypoint.sh odoo -d odoo -i base --max-cron-threads 0 --no-http --stop-after-init -i graphql_vuestorefront; fi"
+      && /entrypoint.sh odoo -d v14_odoo -i base --max-cron-threads 0 --no-http --stop-after-init -i graphql_vuestorefront; fi"
     image: odoogap
     restart: "no"
     volumes:

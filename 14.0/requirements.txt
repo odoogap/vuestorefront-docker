@@ -1,5 +1,3 @@
 redis==4.0.2
-ipython==7.16.1
-ipython-genutils==0.2.0
-graphql-server
-graphene
+graphene==3.0
+graphql-server==3.0.0b4
