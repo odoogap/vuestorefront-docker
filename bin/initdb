@@ -1,0 +1,4 @@
+#!/bin/bash
+docker-compose -f docker-compose.yml up --build -d --remove-orphans
+docker wait odoo_ini
+docker-compose restart odoo

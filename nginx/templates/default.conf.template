@@ -1,0 +1,52 @@
+upstream odoo {
+   least_conn;
+   server odoo:8069;
+}
+upstream long {
+   least_conn;
+   server odoo:8072;
+}
+
+server {
+    listen 80;
+
+    proxy_read_timeout 720s;
+    proxy_connect_timeout 720s;
+    proxy_send_timeout 720s;
+
+    proxy_buffers 16 64k;
+    proxy_buffer_size 128k;
+    client_max_body_size 10M;
+
+    proxy_http_version  1.1;
+    proxy_set_header X-Forwarded-Host $server_name:${TEST_DOCKER_PORT};
+    proxy_set_header X-Forwarded-Port ${TEST_DOCKER_PORT};
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Real-IP $remote_addr;
+
+    location ~* ^/([^/]+/static/|web/(css|js)/|web/image|web/content|website/image/) {
+        proxy_cache_valid 200 60m;
+        proxy_buffering on;
+        expires 30d;
+        proxy_set_header Host $host:$server_port;
+        proxy_pass http://odoo;
+    }
+
+    location /longpolling {
+        proxy_set_header Host $host:$server_port;
+        proxy_pass http://long;
+    }
+
+    # Redirect requests to odoo backend server
+    location / {
+        proxy_redirect off;
+        proxy_set_header Host $host:$server_port;
+        proxy_pass http://odoo;
+    }
+
+    # Common gzip
+    gzip_types text/css text/less text/plain text/xml application/xml application/json application/javascript;
+    gzip on;
+
+}
