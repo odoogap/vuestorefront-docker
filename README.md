@@ -43,3 +43,13 @@ Running this command will stop but will not clear the Odoo database
 $> ./bin/stop
 ```
 
+## Clearing cache
+
+Running this command will stop but will not clear the Odoo database
+
+```bash
+$> docker exec -it redis redis-cli
+127.0.0.1:6379> flushall
+OK
+```
+

@@ -50,15 +50,17 @@ services:
     container_name: odoo_ini
     working_dir: "/mnt/extra-addons"
     command: >
-      bash -c "if [ ! -d "/mnt/extra-addons/graphql_vuestorefront" ]; then git clone https://github.com/odoogap/vuestorefront.git .
+      bash -c "if [ ! -d "/mnt/extra-addons/graphql_vuestorefront" ]; then git clone --branch 14.0 https://github.com/odoogap/vuestorefront.git .
       && git submodule update --init --recursive
-      && /entrypoint.sh odoo -d v14_odoo -i base --max-cron-threads 0 --no-http --stop-after-init -i graphql_vuestorefront; fi"
+      && /entrypoint.sh odoo -d v14_odoo -i base --max-cron-threads 0 --no-http --stop-after-init -i graphql_vuestorefront
+      && /entrypoint.sh odoo shell -d v14_odoo --max-cron-threads 0 --no-http < /start_script.py ; fi"
     image: odoogap
     restart: "no"
     volumes:
       - odoo_home:/var/lib/odoo
       - odoo_extra:/mnt/extra-addons
       - ./14.0/odoo.conf:/etc/odoo/odoo.conf
+      - ./14.0/start_script.py:/start_script.py
     depends_on:
       - db
     networks:
@@ -83,6 +85,11 @@ services:
 
   vsf:
     env_file: .env
+    environment:
+      BASE_URL: http://localhost:8069/
+      BACKEND_BASE_URL: http://odoo:8069/
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     build:
       context: ./vsf
       dockerfile: Dockerfile

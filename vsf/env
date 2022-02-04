@@ -1,4 +1,7 @@
-BASE_URL=http://odoo:8069/
+BASE_URL=http://localhost:8069/
+BACKEND_BASE_URL=http://odoo:8069/
+# Use CDN only production environment
+# PUBLIC_PATH=http://rklfklrkflkrlfk.cloudfront.net/
 REDIS_HOST=redis
 REDIS_PORT=6379
-REDIS_PASSWORD=123
+# REDIS_PASSWORD=123

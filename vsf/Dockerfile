@@ -4,11 +4,11 @@ WORKDIR /app
 
 COPY ./env /
 
-
 RUN apt-get install -y --no-install-recommends git \
-  && git clone https://github.com/vuestorefront-community/odoo.git . \
-  && cp -rf /env /app/packages/theme/.env \
-  && cp -rf /env /app/packages/theme/.env_production \
+  && git clone --branch main https://github.com/odoogap/vuestorefront-demos.git vsf \
+  && mv vsf/demo-1/* . \
+  && rm -rf vsf \
+  && mv /env /.env \
   && yarn install \
   --prefer-offline \
   --frozen-lockfile \
