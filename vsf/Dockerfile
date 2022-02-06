@@ -2,13 +2,10 @@ FROM node:14 as vsf-pre
 
 WORKDIR /app
 
-COPY ./env /
-
 RUN apt-get install -y --no-install-recommends git \
   && git clone --branch main https://github.com/odoogap/vuestorefront-demos.git vsf \
   && mv vsf/demo-1/* . \
   && rm -rf vsf \
-  && mv /env /.env \
   && yarn install \
   --prefer-offline \
   --frozen-lockfile \
