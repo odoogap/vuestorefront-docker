@@ -1,5 +1,7 @@
 #!/bin/bash
-docker-compose -f docker-compose.yml up --build -d --remove-orphans
+docker-compose -f docker-compose.yml up --build -d --remove-orphans odoo_init
+echo "---------------------> wait odoo_ini"
 docker wait odoo_ini
-docker-compose restart nginx
-docker-compose restart odoo
+# need to wait for init to be done
+docker-compose -f docker-compose.yml up --build -d odoo
+docker-compose -f docker-compose.yml up --build -d vsf nginx

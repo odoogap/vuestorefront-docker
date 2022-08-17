@@ -2,8 +2,9 @@ FROM node:14 as vsf-pre
 
 WORKDIR /app
 
+
 RUN apt-get install -y --no-install-recommends git \
-  && git clone --branch main https://github.com/odoogap/vuestorefront-demos.git vsf \
+  && git clone --recurse-submodules --branch dev https://github.com/odoogap/vuestorefront-demos.git vsf \
   && mv vsf/demo-1/* . \
   && rm -rf vsf \
   && yarn install \
@@ -26,6 +27,8 @@ FROM node:14 as vsf2
 WORKDIR /app
 
 COPY --from=vsf-pre /app  .
+
+VOLUME ["/apt/.nuxt"]
 
 ENV HOST 0.0.0.0
 

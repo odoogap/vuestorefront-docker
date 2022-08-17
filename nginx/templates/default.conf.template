@@ -1,3 +1,4 @@
+
 upstream up-vsf {
    least_conn;
    server vsf:3000;
@@ -10,6 +11,7 @@ upstream up-long {
    least_conn;
    server odoo:8072;
 }
+
 
 # Vuestorefront2 Server
 server {
@@ -29,7 +31,7 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-Host $server_name:${TEST_VSF_DOCKER_PORT};
+        proxy_set_header X-Forwarded-Host http://localhost:${TEST_VSF_DOCKER_PORT};
 	    proxy_set_header X-Nginx-Proxy true;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -59,11 +61,12 @@ server {
     client_max_body_size 10M;
 
     proxy_http_version  1.1;
-    proxy_set_header X-Forwarded-Host $server_name:${TEST_ODOO_DOCKER_PORT};
+    proxy_set_header X-Forwarded-Host $host:${TEST_ODOO_DOCKER_PORT};
     proxy_set_header X-Forwarded-Port ${TEST_ODOO_DOCKER_PORT};
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header HOST $host:${TEST_ODOO_DOCKER_PORT};
 
     location ~* ^/([^/]+/static/|web/(css|js)/|web/image|web/content|website/image/) {
         proxy_cache_valid 200 60m;
