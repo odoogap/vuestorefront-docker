@@ -3,7 +3,7 @@ FROM node:14 as vsf-pre
 WORKDIR /app
 
 RUN apt-get install -y --no-install-recommends git \
-  && git clone --branch main https://github.com/odoogap/vuestorefront-demos.git vsf \
+  && git clone --branch main --recurse-submodules https://github.com/odoogap/vuestorefront-demos.git vsf \
   && mv vsf/demo-1/* . \
   && rm -rf vsf \
   && yarn install \
