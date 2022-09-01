@@ -7,6 +7,7 @@ RUN apt-get install -y --no-install-recommends git \
   && git clone --recurse-submodules --branch dev https://github.com/odoogap/vuestorefront-demos.git vsf \
   && mv vsf/demo-1/* . \
   && rm -rf vsf \
+  && yarn add wait-on \
   && yarn install \
   --prefer-offline \
   --frozen-lockfile \

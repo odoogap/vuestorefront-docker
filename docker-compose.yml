@@ -12,23 +12,6 @@ services:
     volumes:
       - redis_data:/data
 
-  nginx:
-    env_file: .env
-    image: nginx:latest
-    container_name: nginx
-    restart: unless-stopped
-    depends_on:
-      - odoo
-      - vsf
-    ports:
-      - ${TEST_VSF_DOCKER_PORT}:${TEST_VSF_DOCKER_PORT}
-      - ${TEST_ODOO_DOCKER_PORT}:${TEST_ODOO_DOCKER_PORT}
-    volumes:
-      - ./nginx/templates:/etc/nginx/templates
-      - web_root:/var/www/html
-    networks:
-      - net01
-
   db:
     env_file: .env
     image: postgres:12
@@ -43,30 +26,6 @@ services:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_DB=v15_odoo
 
-  odoo_init:
-    env_file: .env
-    user: "root"
-    build:
-      context: ./15.0
-      dockerfile: Dockerfile
-    container_name: odoo_ini
-    working_dir: "/mnt/extra-addons"
-    command: >
-      bash -c "if [ ! -d "/mnt/extra-addons/graphql_vuestorefront" ]; then git clone --recurse-submodules --branch 15.0 https://github.com/odoogap/vuestorefront.git .
-      && /entrypoint.sh odoo -d v15_odoo -i base --max-cron-threads 0 --no-http --stop-after-init -i graphql_vuestorefront
-      && /entrypoint.sh odoo shell -d v15_odoo --max-cron-threads 0 --stop-after-init --no-http < /start_script.py ; fi"
-    image: odoogap
-    restart: "no"
-    volumes:
-      - odoo_home:/var/lib/odoo
-      - odoo_extra:/mnt/extra-addons
-      - ./15.0/odoo.conf:/etc/odoo/odoo.conf
-      - ./15.0/start_script.py:/start_script.py
-    depends_on:
-      - db
-    networks:
-      - net01
-
   odoo:
     env_file: .env
     user: "root"
@@ -76,6 +35,9 @@ services:
     container_name: odoo
     image: odoogap
     restart: unless-stopped
+    command: ["/startup.sh"]
+    ports:
+      - 8069:8069
     volumes:
       - odoo_home:/var/lib/odoo
       - odoo_extra:/mnt/extra-addons
@@ -91,10 +53,10 @@ services:
       context: ./vsf
       dockerfile: Dockerfile
     container_name: vsf
+    ports:
+      - 3000:3000
     image: vsf2
     restart: unless-stopped
-    # volumes:
-    #   - nuxt_build:/apt/.nuxt
     depends_on:
       - odoo
     networks:
@@ -108,8 +70,6 @@ volumes:
     external: false
   odoo_extra:
     external: False
-  web_root:
-    external: false
   redis_data:
     external: false
   nuxt_build:

@@ -19,7 +19,7 @@ Main repo's are at:
 Running this command will build and create new containers but also will initialize the Odoo database if not yet initialized
 
 ```bash
-$> ./bin/start
+$> docker-compose up --build -d
 # You might want to check what happens under the hood
 $> docker-compose logs -f
 ```
@@ -32,7 +32,7 @@ Now just open http://localhost:3000 for VSF and http://localhost:8069 for Odoo (
 Running this command will stop but will not clear the Odoo database
 
 ```bash
-$> ./bin/stop
+$> docker-compose down
 ```
 
 ## Clearing
@@ -40,7 +40,7 @@ $> ./bin/stop
 Running this command will stop but will not clear the Odoo database
 
 ```bash
-$> ./bin/stop
+$> docker-compose down -v
 ```
 
 ## Clearing cache
@@ -52,4 +52,3 @@ $> docker exec -it redis redis-cli
 127.0.0.1:6379> flushall
 OK
 ```
-

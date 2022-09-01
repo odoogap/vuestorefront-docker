@@ -3,6 +3,7 @@ FROM odoo:15.0 AS odoogap
 USER root
 
 COPY ./requirements.txt /
+COPY ./startup.sh /
 COPY ./odoo.conf /etc/odoo/
 
 RUN apt-get update \
@@ -10,6 +11,7 @@ RUN apt-get update \
     && python3 -m pip install --no-cache-dir -r requirements.txt \
     && apt-get clean \
     && chown odoo /etc/odoo/odoo.conf \
+    && chown odoo /startup.sh \
     && rm -rf /var/lib/apt/lists/*
 
 

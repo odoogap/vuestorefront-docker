@@ -4,4 +4,4 @@ echo "---------------------> wait odoo_ini"
 docker wait odoo_ini
 # need to wait for init to be done
 docker-compose -f docker-compose.yml up --build -d odoo
-docker-compose -f docker-compose.yml up --build -d vsf nginx
+docker-compose -f docker-compose.yml up --build -d vsf
