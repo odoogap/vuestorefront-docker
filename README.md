@@ -8,11 +8,9 @@ Main repo's are at:
 * https://github.com/vuestorefront-community/odoo for the storefront modules and 
 * https://github.com/odoogap/vuestorefront for the modules you need to install on your Odoo server
 
-
 <div align="center">
   <img src="vsf-odoo.png" alt="Vue Storefront" width="30%"/>
 </div>
-
 
 ## Installation
 
@@ -26,6 +24,7 @@ $> docker-compose logs -f
 
 Now just open http://localhost:3000 for VSF and http://localhost:8069 for Odoo (credentials admin/admin)
 
+> You might not see the top categories (MEN/WOMEN) until the Odoo server is initialized (database init takes time to install all modules)
 
 ## Stopping
 

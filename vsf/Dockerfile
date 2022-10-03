@@ -2,26 +2,15 @@ FROM node:14 as vsf-pre
 
 WORKDIR /app
 
-
 RUN apt-get install -y --no-install-recommends git \
-  && git clone --recurse-submodules --branch dev https://github.com/odoogap/vuestorefront-demos.git vsf \
-  && mv vsf/demo-1/* . \
-  && rm -rf vsf \
+  && git clone --depth=1 --branch v1.4.0 https://github.com/vuestorefront-community/template-odoo.git . \
   && yarn add wait-on \
   && yarn install \
   --prefer-offline \
   --frozen-lockfile \
   --non-interactive \
-  --production=false
-
-RUN yarn build
-
-RUN rm -rf node_modules && \
-  NODE_ENV=development yarn install \
-  --prefer-offline \
-  --pure-lockfile \
-  --non-interactive \
-  --production=false
+  --production=false \
+  && yarn build
 
 FROM node:14 as vsf2
 

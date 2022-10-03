@@ -57,8 +57,11 @@ services:
       - 3000:3000
     image: vsf2
     restart: unless-stopped
+    volumes:
+      - nuxt_build:/apt/.nuxt
     depends_on:
       - odoo
+      - redis
     networks:
       - net01
 
