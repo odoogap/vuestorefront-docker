@@ -4,6 +4,7 @@ USER root
 
 COPY ./requirements.txt /
 COPY ./startup.sh /
+COPY ./start_script.py /
 COPY ./odoo.conf /etc/odoo/
 
 RUN apt-get update \
