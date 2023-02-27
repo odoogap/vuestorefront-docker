@@ -36,7 +36,7 @@ $> docker-compose down
 
 ## Clearing
 
-Running this command will stop but will not clear the Odoo database
+Running this command will stop but will clear the Odoo database
 
 ```bash
 $> docker-compose down -v
