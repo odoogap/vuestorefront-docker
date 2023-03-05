@@ -1,5 +1,5 @@
 FROM node:14 as vsf-pre
-ARG TAG_BRANCH=v1.4.0
+ARG TAG_BRANCH=main
 
 WORKDIR /app
 
