@@ -16,7 +16,7 @@ services:
 
   db:
     env_file: .env
-    image: postgres:12
+    image: postgres:14
     container_name: db
     restart: unless-stopped
     networks:
@@ -26,13 +26,13 @@ services:
     environment:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
-      - POSTGRES_DB=v15_odoo
+      - POSTGRES_DB=v16_odoo
 
   odoo:
     env_file: .env
     user: "root"
     build:
-      context: ./15.0
+      context: ./16.0
       dockerfile: Dockerfile
     container_name: odoo
     image: odoogap
@@ -43,7 +43,7 @@ services:
     volumes:
       - odoo_home:/var/lib/odoo
       - odoo_extra:/mnt/extra-addons
-      - ./15.0/odoo.conf:/etc/odoo/odoo.conf
+      - ./16.0/odoo.conf:/etc/odoo/odoo.conf
     depends_on:
       - db
     networks:

@@ -10,8 +10,11 @@ RUN apt-get install -y --no-install-recommends git \
   --prefer-offline \
   --frozen-lockfile \
   --non-interactive \
-  --production=false \
-  && yarn build
+  --production=false
+
+COPY products.json /app/customRoutes/
+
+RUN yarn build
 
 FROM node:14 as vsf2
 

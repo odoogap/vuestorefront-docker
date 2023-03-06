@@ -1,4 +1,4 @@
-FROM odoo:15.0 AS odoogap
+FROM odoo:16.0 AS odoogap
 
 USER root
 

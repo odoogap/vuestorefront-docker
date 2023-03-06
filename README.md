@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The main purpose of this repo is to allow users to be able to test the Vuestorefront - Odoo Integration.
+The main purpose of this repo is to allow users to be able to test the Vuestorefront - Odoo Integration. Not for production use.
 Main repo's are at:
 
 * https://github.com/vuestorefront-community/odoo for the storefront modules and 
