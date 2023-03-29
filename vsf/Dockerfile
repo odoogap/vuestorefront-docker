@@ -1,4 +1,4 @@
-FROM node:14 as vsf-pre
+FROM node:16 as vsf-pre
 ARG TAG_BRANCH=main
 
 WORKDIR /app
@@ -16,7 +16,7 @@ COPY products.json /app/customRoutes/
 
 RUN yarn build
 
-FROM node:14 as vsf2
+FROM node:16 as vsf2
 
 WORKDIR /app
 
