@@ -13,7 +13,7 @@ RUN apt-get install -y --no-install-recommends git \
   --production=false \
   && yarn build
 
-FROM node:14 as vsf2
+FROM node:14-alpine3.17 as vsf2
 
 WORKDIR /app
 
