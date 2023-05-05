@@ -1,5 +1,5 @@
 FROM node:16 as vsf-pre
-ARG TAG_BRANCH=main
+ARG TAG_BRANCH=dev
 
 WORKDIR /app
 
