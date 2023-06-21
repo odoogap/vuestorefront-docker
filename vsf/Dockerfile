@@ -13,6 +13,7 @@ RUN apt-get install -y --no-install-recommends git \
   --production=false
 
 COPY products.json /app/customRoutes/
+COPY categories.json /app/customRoutes/
 
 RUN yarn build
 
