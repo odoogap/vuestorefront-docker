@@ -55,7 +55,7 @@ services:
       context: ./vsf
       dockerfile: Dockerfile
       args:
-        TAG_BRANCH: "v1.5.1"
+        TAG_BRANCH: "v1.5.2"
     container_name: vsf
     ports:
       - 3000:3000
