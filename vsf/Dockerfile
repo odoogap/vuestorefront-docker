@@ -1,30 +1,25 @@
-FROM node:16 as vsf-pre
+ARG NODE_VERSION=20.8
+ARG YARN_VERSION=3.6.1
+
+FROM node:${NODE_VERSION}-slim as vsf-pre
 ARG TAG_BRANCH=main
+WORKDIR /src
 
-WORKDIR /app
-
-RUN apt-get install -y --no-install-recommends git \
-  && git clone --depth=1 --branch ${TAG_BRANCH} https://github.com/vuestorefront-community/template-odoo.git . \
-  && yarn add wait-on \
+RUN apt-get update &&  apt-get install -y --no-install-recommends git ca-certificates \
+  && rm -rf /var/lib/apt/lists/* \
+  && git clone --depth=1 --recurse-submodules https://github.com/odoogap/storefront-ui . \
+  && yarn add wait-on  -W \
   && yarn install \
   --prefer-offline \
   --frozen-lockfile \
   --non-interactive \
-  --production=false
+  --production=false \
+  && yarn build
 
-COPY products.json /app/customRoutes/
+FROM vsf-pre as vsf2
+ENV PORT=$PORT
 
-RUN yarn build
-
-FROM node:16 as vsf2
-
-WORKDIR /app
-
-COPY --from=vsf-pre /app  .
-
-VOLUME ["/apt/.nuxt"]
+COPY --from=vsf-pre /src/apps/web/.output ./
 
 ENV HOST 0.0.0.0
-
-
-CMD [ "yarn", "start" ]
+CMD [ "node", "/src/server/index.mjs" ]

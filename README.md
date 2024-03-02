@@ -5,8 +5,9 @@
 The main purpose of this repo is to allow users to be able to test the Vuestorefront - Odoo Integration. Not for production use.
 Main repo's are at:
 
-* https://github.com/vuestorefront-community/odoo for the storefront modules and 
+* https://github.com/vuestorefront-community/odoo using sdk-migration branch for the storefront modules and 
 * https://github.com/odoogap/vuestorefront for the modules you need to install on your Odoo server
+* https://github.com/odoogap/storefront-ui boilerplate for the SFUI v2 we are using on this demo
 
 <div align="center">
   <img src="vsf-odoo.png" alt="Vue Storefront" width="30%"/>
