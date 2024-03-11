@@ -56,11 +56,12 @@ services:
       dockerfile: Dockerfile
       args:
         TAG_BRANCH: "main"
+        REDIS_URL: "redis://redis:6379"
     container_name: vsf
     ports:
       - 3000:3000
       - 8181:8181
-    image: vsf2
+    image: vsf-sfui2
     restart: unless-stopped
     volumes:
       - nuxt_build:/apt/.nuxt
