@@ -46,19 +46,19 @@ services:
     networks:
       - net01
 
-  vsf:
+  alokai:
     env_file: .env
     build:
-      context: ./vsf
+      context: ./alokai
       dockerfile: Dockerfile
       args:
         TAG_BRANCH: "main"
         NODE_VERSION: 20.10
         REDIS_URL: "redis://redis:6379"
-    container_name: vsf
+    container_name: alokai
     ports:
       - 3000:3000
-    image: vsf-sfui2
+    image: alokai-sfui2
     restart: unless-stopped
     volumes:
       - nuxt_build:/apt/.nuxt

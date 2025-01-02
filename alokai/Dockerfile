@@ -1,12 +1,13 @@
 ARG IMAGE_NODE_VERSION="20.10.0"
 ARG YARN_VERSION="3.6.1"
+ARG PORT=3000
 
-
-FROM node:${IMAGE_NODE_VERSION}-slim AS vsf-pre
+FROM node:${IMAGE_NODE_VERSION}-slim AS alokai-pre
 
 ARG TAG_BRANCH="main" \
     NUXT_STORAGE_DRIVER="redis" \
-    NUXT_STORAGE_URL="redis://redis:6379"
+    NUXT_STORAGE_URL="redis://redis:6379" \
+    IMAGE_NODE_VERSION PORT
 
 ENV NUXT_STORAGE_URL=$NUXT_STORAGE_URL \
     NUXT_STORAGE_DRIVER=$NUXT_STORAGE_DRIVER \
@@ -26,7 +27,7 @@ RUN apt-get update &&  apt-get install -y --no-install-recommends git ca-certifi
   --production=false \
   && yarn build
 
-FROM vsf-pre AS vsf2
+FROM alokai-pre AS alokai
 
 ARG IMAGE_NODE_VERSION
 
@@ -35,7 +36,6 @@ ENV PORT=$PORT \
     HOST=0.0.0.0 \
     NODE_VERSION=$IMAGE_NODE_VERSION
 
-COPY --from=vsf-pre /src/.output ./
-RUN echo "___::: NUXT_STORAGE_URL=$NUXT_STORAGE_URL , NUXT_STORAGE_DRIVER=$NUXT_STORAGE_DRIVER, NODE_VERSION=$NODE_VERSION"
+COPY --from=alokai-pre /src/.output ./
 
 CMD [ "node", "/src/server/index.mjs" ]
