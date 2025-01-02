@@ -5,12 +5,14 @@ ARG PORT=3000
 FROM node:${IMAGE_NODE_VERSION}-slim AS alokai-pre
 
 ARG TAG_BRANCH="main" \
+    GIT_REPO="https://github.com/erpgap/storefront-ui" \
     NUXT_STORAGE_DRIVER="redis" \
     NUXT_STORAGE_URL="redis://redis:6379" \
     IMAGE_NODE_VERSION PORT
 
 ENV NUXT_STORAGE_URL=$NUXT_STORAGE_URL \
     NUXT_STORAGE_DRIVER=$NUXT_STORAGE_DRIVER \
+    GIT_REPO=$GIT_REPO \
     TAG_BRANCH=$TAG_BRANCH \
     NODE_VERSION=$IMAGE_NODE_VERSION
     
@@ -18,7 +20,7 @@ WORKDIR /src
 
 RUN apt-get update &&  apt-get install -y --no-install-recommends git ca-certificates \
   && rm -rf /var/lib/apt/lists/* \
-  && git clone --depth=1 --recurse-submodules --branch ${TAG_BRANCH} https://github.com/odoogap/storefront-ui . \
+  && git clone --depth=1 --recurse-submodules --branch ${TAG_BRANCH} ${GIT_REPO} . \
   && yarn add wait-on -W \
   && yarn install \
   --prefer-offline \
